@@ -25,6 +25,16 @@ describe("otp page", async () => {
             expect(inputboxs[0].element.value ).toBe('1');
             expect(inputboxs[1].element.value ).toBe('');
         });
+
+        test("should submit form once 4-digit is entered", async () => {
+            await inputboxs[0].setValue('1')
+            await inputboxs[1].setValue('2')
+            await inputboxs[2].setValue('3')
+            await inputboxs[3].trigger('input', {key: '4'});
+
+            await wrapper.find('button[type="submit"]').trigger('click');
+            expect(wrapper.emitted('click')).toBeTruthy();
+        });
     });
 
 

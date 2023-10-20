@@ -2,6 +2,7 @@
 import {onMounted, ref} from "vue";
 
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
+const buttonRef = ref<HTMLButtonElement | null>(null);
 const inputValue = ref(['']);
 
 const inputEvent = ((index: number)=>{
@@ -9,6 +10,10 @@ const inputEvent = ((index: number)=>{
     return;
   }
   inputRefs.value[index+1]?.focus();
+  if (index == inputRefs.value.length-1){
+    buttonRef.value?.click();
+  }
+
 });
 
 const onKeyDown = ((index: number, event: KeyboardEvent)=>{
@@ -18,11 +23,13 @@ const onKeyDown = ((index: number, event: KeyboardEvent)=>{
       inputValue.value[index] = '';
       return;
     }
-
     inputRefs.value[index-1]?.focus();
   }
 })
 
+const handleSubmit = (()=>{
+  console.log('submit otp: '+inputValue.value.join(''));
+});
 onMounted(()=>{
   inputRefs.value[0]?.focus();
 });
@@ -30,7 +37,7 @@ onMounted(()=>{
 </script>
 
 <template>
-    <form>
+    <form class="otp-form" ref="form" @submit.prevent="handleSubmit">
       <div class="otp-container">
         <h3 class="otp-title">Enter verification</h3>
         <div class="input-group">
@@ -43,6 +50,7 @@ onMounted(()=>{
           >
         </div>
       </div>
+      <button ref="buttonRef" type="submit">Submit</button>
     </form>
 </template>
 <style scoped>
