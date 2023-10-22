@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
+import {InputValidator} from "@/Decoractors/InputValidations";
 
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
