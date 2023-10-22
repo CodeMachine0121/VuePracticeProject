@@ -1,40 +1,27 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
-import {InputValidator} from "@/Decoractors/InputValidations";
+import type {InputEventArguments} from "@/Models/InputEventArguments";
 
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
 const inputValue = ref(['']);
-
-const inputEvent = ((index: number)=>{
-  if(inputValue.value[index] === ''){
-    return;
-  }
-
+const onKeyUp = ((index: number, event: KeyboardEvent)=>{
+  const inputEventObj :InputEventArguments= {
+   inputKey: event.key,
+   inputValue: inputValue.value[index],
+   inputRefs: inputRefs.value,
+   index: index,
+   buttonRef: buttonRef.value
+  };
 
   try {
     const inputValidator = new InputValidator();
-    inputValidator.validtion(inputValue.value[index], index);
-    if (index == inputRefs.value.length-1){
-      buttonRef.value?.click();
-    }
+    inputValidator.validate(inputEventObj);
+
   }
   catch (e) {
     console.log(e);
     inputValue.value[index] = "";
-    return;
-  }
-
-  inputRefs.value[index+1]?.focus();
-})
-const onKeyDown = ((index: number, event: KeyboardEvent)=>{
-  if(event.key === 'Backspace'){
-    if(index === inputValue.value.length-1
-        && inputValue.value[index] !== ''){
-      inputValue.value[index] = '';
-      return;
-    }
-    inputRefs.value[index-1]?.focus();
   }
 })
 
@@ -54,8 +41,7 @@ onMounted(()=>{
         <div class="input-group">
           <input class="input"
                  v-for="(i, index) in 4" :key="`key-${i}`"
-                 @input="inputEvent(index)"
-                 @keydown="onKeyDown(index, $event)"
+                 @keyup="onKeyUp(index, $event)"
                  v-model="inputValue[index]"
                  :ref="el => inputRefs[index] = el as HTMLInputElement"
           >
