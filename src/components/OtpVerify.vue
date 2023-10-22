@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {onMounted, ref} from "vue";
+import {InputValidator} from "@/Decoractors/InputValidations";
 
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
@@ -9,13 +10,23 @@ const inputEvent = ((index: number)=>{
   if(inputValue.value[index] === ''){
     return;
   }
-  inputRefs.value[index+1]?.focus();
-  if (index == inputRefs.value.length-1){
-    buttonRef.value?.click();
+
+
+  try {
+    const inputValidator = new InputValidator();
+    inputValidator.validtion(inputValue.value[index], index);
+    if (index == inputRefs.value.length-1){
+      buttonRef.value?.click();
+    }
+  }
+  catch (e) {
+    console.log(e);
+    inputValue.value[index] = "";
+    return;
   }
 
-});
-
+  inputRefs.value[index+1]?.focus();
+})
 const onKeyDown = ((index: number, event: KeyboardEvent)=>{
   if(event.key === 'Backspace'){
     if(index === inputValue.value.length-1

@@ -35,6 +35,15 @@ describe("otp page", async () => {
             await wrapper.find('button[type="submit"]').trigger('click');
             expect(wrapper.emitted('click')).toBeTruthy();
         });
+
+        test("should only accept one digit", async () => {
+            await inputboxs[0].setValue('1112')
+            expect(inputboxs[0].element.value).toBe('2');
+        });
+        test("should only accept digit not character", async () => {
+            await inputboxs[0].setValue('a')
+            expect(inputboxs[0].element.value).toBe('');
+        });
     });
 
 
