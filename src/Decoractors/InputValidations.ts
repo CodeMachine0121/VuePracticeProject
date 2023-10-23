@@ -5,7 +5,7 @@ function InputKeyValidation(target: any, key: string, descriptor: PropertyDescri
         const inputEvent: InputEventArguments = args[0];
         const index = inputEvent.index;
         if(inputEvent.inputKey === 'Backspace'){
-          inputEvent.inputValue = '';
+          inputEvent.inputValue[index] = '';
           inputEvent.inputRefs[index-1]?.select();
           return;
         }
@@ -18,7 +18,7 @@ function RegexValidation(target: any, key: string, descriptor: PropertyDescripto
     descriptor.value = function(...args: any[]){
         const inputEvent = args[0];
         const digitRegex = /^$|^[0-9]+$/
-        if(!digitRegex.test(inputEvent.inputValue)){
+        if(!digitRegex.test(inputEvent.inputValue[inputEvent.index])){
             throw new Error("Validation failed in RegexValidation");
         }
         originalMethod.apply(this, args)
@@ -29,7 +29,7 @@ function LengthValidation(target: any, key: string, descriptor: PropertyDescript
     const originalMethod = descriptor.value;
     descriptor.value = function(...args: any[]){
         const inputEvent = args[0];
-        const length = inputEvent.inputValue.length;
+        const length = inputEvent.inputValue[inputEvent.index].length;
         if(length> 1){
             throw new Error("Validation failed in LengthValidation");
         }
@@ -42,10 +42,10 @@ function SubmitValidation(target: any, key: string, descriptor: PropertyDescript
     const originalMethod = descriptor.value;
     descriptor.value = function(...args: any[]){
         const inputEvent = args[0];
+        const inputValue = inputEvent.inputValue.join('');
         const index = inputEvent.index;
         const btn = inputEvent.buttonRef;
-
-        if( index === 3){
+        if( index === 3 && inputValue.length === 4){
             console.log("submit")
             btn?.click();
         }
@@ -53,7 +53,6 @@ function SubmitValidation(target: any, key: string, descriptor: PropertyDescript
     }
     return descriptor;
 }
-
 export class InputValidator{
     @InputKeyValidation
     @RegexValidation

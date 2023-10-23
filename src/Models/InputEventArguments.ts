@@ -1,9 +1,9 @@
-import {UnwrapRef} from "vue/dist/vue";
+import type {UnwrapRef} from "vue";
 
-export type InputEventArguments= {
-    inputKey: string;
-    inputValue: string;
-    index: number;
-    buttonRef: UnwrapRef<HTMLButtonElement | null>;
-    inputRefs: UnwrapRef<HTMLInputElement | null>[];
+export class InputEventArguments {
+    inputKey:   string = '';
+    inputValue: string[]= [];
+    index: number= 0;
+    buttonRef: UnwrapRef<HTMLButtonElement | null>= null;
+    inputRefs: UnwrapRef<HTMLInputElement | null>[]= [];
 }

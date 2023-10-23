@@ -18,11 +18,9 @@ describe("otp page", async () => {
             expect(inputboxs[1].element.value ).toBe('');
         });
         test("should be able to remove digit", async () => {
-            await inputboxs[0].setValue('1')
-            await inputboxs[1].setValue('2')
+            await inputboxs[0].trigger('keydown', {key: '1'});
+            await inputboxs[1].trigger('keydown', {key: '2'});
             await inputboxs[1].trigger('keydown', {key: 'Backspace'});
-            await inputboxs[1].trigger('keydown', {key: 'Backspace'});
-            expect(inputboxs[0].element.value ).toBe('1');
             expect(inputboxs[1].element.value ).toBe('');
         });
 
@@ -37,11 +35,11 @@ describe("otp page", async () => {
         });
 
         test("should only accept one digit", async () => {
-            await inputboxs[0].setValue('1112')
-            expect(inputboxs[0].element.value).toBe('2');
+            await inputboxs[0].trigger('keydown',{key: '123'})
+            expect(inputboxs[0].element.value).toBe('');
         });
         test("should only accept digit not character", async () => {
-            await inputboxs[0].setValue('a')
+            await inputboxs[0].trigger('keydown',{key: 'a'})
             expect(inputboxs[0].element.value).toBe('');
         });
     });

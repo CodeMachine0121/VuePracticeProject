@@ -9,7 +9,7 @@ const inputValue = ref(['']);
 const onKeyUp = ((index: number, event: KeyboardEvent)=>{
   const inputEventObj :InputEventArguments= {
    inputKey: event.key,
-   inputValue: inputValue.value[index],
+   inputValue: inputValue.value,
    inputRefs: inputRefs.value,
    index: index,
    buttonRef: buttonRef.value
@@ -18,9 +18,9 @@ const onKeyUp = ((index: number, event: KeyboardEvent)=>{
   try {
     const inputValidator = new InputValidator();
     inputValidator.validate(inputEventObj);
-
   }
   catch (e) {
+    alert(e.message)
     console.log(e);
     inputValue.value[index] = "";
   }
@@ -48,7 +48,7 @@ onMounted(()=>{
           >
         </div>
       </div>
-      <button ref="buttonRef" type="submit">Submit</button>
+      <button hidden disabled ref="buttonRef" type="submit">Submit</button>
     </form>
 </template>
 <style scoped>
