@@ -2,7 +2,9 @@
 import {onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
 import {InputValidator} from "@/Decoractors/InputValidations";
+import { show } from 'uspin'
 
+const loadingRef = ref<HTMLElement | null>(null)
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
 const inputValue = ref(['']);
@@ -36,20 +38,20 @@ onMounted(()=>{
 </script>
 
 <template>
-    <form class="otp-form" ref="form" @submit.prevent="handleSubmit">
-      <div class="otp-container">
-        <h3 class="otp-title">Enter verification</h3>
-        <div class="input-group">
-          <input class="input"
-                 v-for="(i, index) in 4" :key="`key-${i}`"
-                 @keyup="onKeyUp(index, $event)"
-                 v-model="inputValue[index]"
-                 :ref="el => inputRefs[index] = el as HTMLInputElement"
-          >
-        </div>
+  <form class="otp-form" ref="form" @submit="handleSubmit">
+    <div class="otp-container" ref="loadingRef">
+      <h3 class="otp-title">Enter verification</h3>
+      <div class="input-group">
+        <input class="input"
+               v-for="(i, index) in 4" :key="`key-${i}`"
+               @keyup="onKeyUp(index, $event)"
+               v-model="inputValue[index]"
+               :ref="el => inputRefs[index] = el as HTMLInputElement"
+        >
       </div>
-      <button hidden disabled ref="buttonRef" type="submit">Submit</button>
-    </form>
+    </div>
+    <button hidden ref="buttonRef" type="submit" @click="show(<HTMLElement>loadingRef)">Submit</button>
+  </form>
 </template>
 <style scoped>
 .otp-container {
