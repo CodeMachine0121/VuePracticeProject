@@ -21,7 +21,7 @@ const onKeyUp = ((index: number, event: KeyboardEvent)=>{
     const inputValidator = new InputValidator();
     inputValidator.validate(inputEventObj);
   }
-  catch (e) {
+  catch (e: Error) {
     alert(e.message)
     console.log(e);
     inputValue.value[index] = "";
