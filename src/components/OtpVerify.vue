@@ -38,7 +38,7 @@ onMounted(()=>{
 </script>
 
 <template>
-  <form class="otp-form" ref="form" @submit="handleSubmit">
+  <form class="otp-form" ref="form">
     <div class="otp-container" ref="loadingRef">
       <h3 class="otp-title">Enter verification</h3>
       <div class="input-group">
@@ -50,7 +50,7 @@ onMounted(()=>{
         >
       </div>
     </div>
-    <button hidden ref="buttonRef" type="submit" @click="show(<HTMLElement>loadingRef)">Submit</button>
+    <button hidden ref="buttonRef" type="submit" @click="handleSubmit">Submit</button>
   </form>
 </template>
 <style scoped>
