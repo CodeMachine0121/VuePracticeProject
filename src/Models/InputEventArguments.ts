@@ -6,4 +6,5 @@ export class InputEventArguments {
     index: number= 0;
     buttonRef: UnwrapRef<HTMLButtonElement | null>= null;
     inputRefs: UnwrapRef<HTMLInputElement | null>[]= [];
+    loadingRef: UnwrapRef<HTMLElement | null>= null;
 }

@@ -1,4 +1,6 @@
 import type {InputEventArguments} from "@/Models/InputEventArguments";
+import {show} from "uspin";
+import {delay} from "msw";
 function InputKeyValidation(target: any, key: string, descriptor: PropertyDescriptor){
     const originalMethod = descriptor.value;
     descriptor.value = function(...args: any[]){
@@ -40,13 +42,15 @@ function LengthValidation(target: any, key: string, descriptor: PropertyDescript
 
 function SubmitValidation(target: any, key: string, descriptor: PropertyDescriptor){
     const originalMethod = descriptor.value;
-    descriptor.value = function(...args: any[]){
+    descriptor.value = async function (...args: any[]) {
         const inputEvent = args[0];
         const inputValue = inputEvent.inputValue.join('');
         const index = inputEvent.index;
         const btn = inputEvent.buttonRef;
-        if( index === 3 && inputValue.length === 4){
-            console.log("submit")
+        const loading = inputEvent.loadingRef;
+        if (index === 3 && inputValue.length === 4) {
+            show(loading);
+            await delay(5000)
             btn?.click();
         }
         originalMethod.apply(this, args)

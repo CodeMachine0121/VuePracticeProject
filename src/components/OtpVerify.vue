@@ -10,11 +10,12 @@ const buttonRef = ref<HTMLButtonElement | null>(null);
 const inputValue = ref(['']);
 const onKeyUp = ((index: number, event: KeyboardEvent)=>{
   const inputEventObj :InputEventArguments= {
-   inputKey: event.key,
-   inputValue: inputValue.value,
-   inputRefs: inputRefs.value,
-   index: index,
-   buttonRef: buttonRef.value
+    inputKey: event.key,
+    inputValue: inputValue.value,
+    inputRefs: inputRefs.value,
+    index: index,
+    buttonRef: buttonRef.value,
+    loadingRef: loadingRef.value
   };
 
   try {
