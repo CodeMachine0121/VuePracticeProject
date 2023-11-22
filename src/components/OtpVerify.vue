@@ -3,6 +3,7 @@ import {nextTick, onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
 import {InputValidator} from "@/Decoractors/InputValidations";
 
+const emit = defineEmits(['updateLoginStatus'])
 const loadingRef = ref<HTMLElement | null>(null)
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
@@ -35,13 +36,13 @@ const onPaste = async (index: number, event: ClipboardEvent)=>{
   await nextTick();
 };
 
-const handleSubmit = (()=>{
-  console.log('submit otp: '+inputValue.value.join(''));
+const handleSubmit = (async () => {
+  await emit('updateLoginStatus', true)
 });
+
 onMounted(()=>{
   inputRefs.value[0]?.focus();
 });
-
 </script>
 
 <template>
@@ -59,8 +60,8 @@ onMounted(()=>{
         >
       </div>
     </div>
-    <button hidden ref="buttonRef" type="submit" @click="handleSubmit">Submit</button>
   </form>
+  <button  hidden="" ref="buttonRef"  @click="handleSubmit">Submit</button>
 </template>
 <style scoped>
 .otp-container {

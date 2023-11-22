@@ -50,7 +50,7 @@ function SubmitValidation(target: any, key: string, descriptor: PropertyDescript
         const loading = inputEvent.loadingRef;
         if (index === 3 && inputValue.length === 4) {
             show(loading);
-            await delay(5000)
+            await delay(3000)
             btn?.click();
         }
         originalMethod.apply(this, args)
