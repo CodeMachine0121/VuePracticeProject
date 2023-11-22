@@ -1,5 +1,20 @@
 <script lang="ts" setup>
+import {onBeforeMount, onMounted, ref} from "vue";
+import type {AuthApiSuccessResponse} from "@/Proxy/ApiProxy";
+import {ProfileStore} from "@/Storage/Storage";
+
+const props = defineProps<{
+  token: string
+}>();
+
+const profile = ref<AuthApiSuccessResponse>();
 const emit = defineEmits(['logout']);
+const profileStore = ProfileStore();
+
+onMounted(async () => {
+  await profileStore.Get(props.token);
+  profile.value = profileStore.GetProfile;
+});
 
 const logOut = async () => {
   await emit('logout');
@@ -11,16 +26,16 @@ const logOut = async () => {
     <button  @click="logOut">Logout</button>
   </div>
   <figure class="profile">
-    <img class="profile-photo" src="https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939" alt="" width="300" height="512">
+    <img class="profile-photo" v-bind:src="profile?.photo" alt="" width="300" height="512">
     <div class="profile-details">
       <blockquote>
         <p class="profile-quote font-medium">
-          “I believe the children are the future... Unless we stop them now!”
+          {{profile?.quote}}
         </p>
       </blockquote>
       <figcaption class="font-medium">
         <div class="text-sky-500">
-          Homer Simpson
+          {{profile?.username}}
         </div>
       </figcaption>
     </div>

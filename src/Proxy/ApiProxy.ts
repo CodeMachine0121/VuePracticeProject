@@ -9,13 +9,13 @@ interface VerifyApiRequest{
     code: string
 }
 
-interface AuthApiSuccessResponse{
+export interface AuthApiSuccessResponse{
     username: string,
     quote: string,
     photo: string
 }
 
-interface AuthApiFailResponse{
+export interface AuthApiFailResponse{
     message: string
 }
 
@@ -39,5 +39,5 @@ export async function Auth(token: string): Promise<AuthApiSuccessResponse| AuthA
     };
     const response:AxiosResponse<AuthApiSuccessResponse| AuthApiFailResponse> = await axios.get<AuthApiSuccessResponse| AuthApiFailResponse>("http://localhost:5173/api/auth", config);
 
-    return response.data;
+    return response.data
 }
