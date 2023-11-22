@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import {onMounted, ref} from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
 import {InputValidator} from "@/Decoractors/InputValidations";
-import { show } from 'uspin'
 
 const loadingRef = ref<HTMLElement | null>(null)
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
@@ -29,6 +28,13 @@ const onKeyUp = ((index: number, event: KeyboardEvent)=>{
   }
 })
 
+const onPaste = async (index: number, event: ClipboardEvent)=>{
+  const pastedData = (event.clipboardData).getData('text');
+  inputValue.value = pastedData.split('');
+  inputRefs.value[pastedData.length-1]?.focus();
+  await nextTick();
+};
+
 const handleSubmit = (()=>{
   console.log('submit otp: '+inputValue.value.join(''));
 });
@@ -44,10 +50,12 @@ onMounted(()=>{
       <h3 class="otp-title">Enter verification</h3>
       <div class="input-group">
         <input class="input"
+               maxlength="1"
                v-for="(i, index) in 4" :key="`key-${i}`"
                @keyup="onKeyUp(index, $event)"
                v-model="inputValue[index]"
                :ref="el => inputRefs[index] = el as HTMLInputElement"
+               @paste="onPaste(index, $event)"
         >
       </div>
     </div>
