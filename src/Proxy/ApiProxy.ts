@@ -1,7 +1,7 @@
 import type {AxiosResponse} from "axios";
 import axios from "axios";
 
-interface VerifyApiResponse {
+export interface VerifyApiResponse {
     valid: boolean;
     token: string;
 }

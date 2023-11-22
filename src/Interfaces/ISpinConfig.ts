@@ -1,4 +1,4 @@
-import type {Ref} from "vue";
+import type {Ref, UnwrapRef} from "vue";
 
 export interface SpinConfig {
     logoColor?: string // default: '#fff'

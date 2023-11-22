@@ -1,9 +1,9 @@
 import {defineStore} from "pinia";
-import {state} from "vue-tsc/out/shared";
+import type {VerifyApiResponse} from "@/Proxy/ApiProxy";
 
 export const useLoginStore = defineStore('loginStatus', {
     state: ()=>{
-        return {isLogin: false};
+        return {isLogin: false, token: ""};
     },
 
     getters: {
@@ -11,6 +11,13 @@ export const useLoginStore = defineStore('loginStatus', {
     },
 
     actions: {
-        update(){this.isLogin=!this.isLogin}
+        login(result: VerifyApiResponse){
+            this.isLogin = result.valid;
+            this.token = result.token;
+        },
+        logOut(){
+            this.isLogin=false;
+            this.token="";
+        }
     },
 });
