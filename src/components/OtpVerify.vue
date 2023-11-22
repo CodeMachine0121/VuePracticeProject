@@ -2,6 +2,7 @@
 import {nextTick, onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
 import {InputValidator} from "@/Decoractors/InputValidations";
+import {Auth, VerifyOtp} from "@/Proxy/ApiProxy";
 
 const emit = defineEmits(['login'])
 const loadingRef = ref<HTMLElement | null>(null)
@@ -37,6 +38,8 @@ const onPaste = async (index: number, event: ClipboardEvent)=>{
 };
 
 const handleSubmit = (async () => {
+  const response = await VerifyOtp(inputValue.value.join(''))
+  const data = await Auth(response.token)
   await emit('login', true)
 });
 
