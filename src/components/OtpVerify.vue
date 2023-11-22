@@ -41,9 +41,12 @@ const onPaste = async (index: number, event: ClipboardEvent)=>{
 const handleSubmit = (async () => {
   const response = await VerifyOtp(inputValue.value.join(''))
   if (response.valid) {
+    console.log("login success");
     await emit('login', response)
   }
   hide(loadingRef.value as HTMLElement);
+  inputValue.value = [];
+  inputRefs.value[0]?.focus();
 });
 
 onMounted(()=>{
