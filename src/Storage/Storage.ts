@@ -7,6 +7,10 @@ export const useLoginStore = defineStore('loginStatus', {
         return { result:{} as VerifyApiResponse};
     },
 
+    persist: {
+        storage: sessionStorage,
+    },
+
     getters: {
         IsLogin(state){ return state.result.valid}
     },
