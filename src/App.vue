@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import OtpVerify from '@/components/OtpVerify.vue'
 import Profile from '@/components/Profile.vue'
-import {ref} from "vue";
+import {useLoginStore} from "@/Storage/Storage";
 
-const loginStatus = ref<Boolean>(false)
-const updateLoginStatus = (status: Boolean)=>{
-  loginStatus.value = status;
+const store = useLoginStore();
+const update= ()=>{
+  store.update()
 }
-
-
 </script>
 
 <template>
-  <Profile v-if="loginStatus" @update-login-status="updateLoginStatus"/>
-  <OtpVerify v-else @update-login-status="updateLoginStatus"/>
+  <Profile v-if="!store.IsLogin" @logout="update"/>
+  <OtpVerify v-else @login="update"/>
 </template>

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-const emit = defineEmits(['updateLoginStatus'])
+const emit = defineEmits(['logout']);
 
-const updateLoginStatus = async () => {
-  await emit('updateLoginStatus', false)
+const logOut = async () => {
+  await emit('logout');
 };
 </script>
 
 <template>
   <div class="logout">
-    <button  @click="updateLoginStatus">Logout</button>
+    <button  @click="logOut">Logout</button>
   </div>
   <figure class="profile">
     <img class="profile-photo" src="https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939" alt="" width="300" height="512">

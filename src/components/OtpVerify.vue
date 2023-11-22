@@ -3,7 +3,7 @@ import {nextTick, onMounted, ref} from "vue";
 import type {InputEventArguments} from "@/Models/InputEventArguments";
 import {InputValidator} from "@/Decoractors/InputValidations";
 
-const emit = defineEmits(['updateLoginStatus'])
+const emit = defineEmits(['login'])
 const loadingRef = ref<HTMLElement | null>(null)
 const inputRefs = ref<Array<HTMLInputElement | null>>([]);
 const buttonRef = ref<HTMLButtonElement | null>(null);
@@ -37,7 +37,7 @@ const onPaste = async (index: number, event: ClipboardEvent)=>{
 };
 
 const handleSubmit = (async () => {
-  await emit('updateLoginStatus', true)
+  await emit('login', true)
 });
 
 onMounted(()=>{
